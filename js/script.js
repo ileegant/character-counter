@@ -6,14 +6,19 @@ const readingTime     = document.getElementById('reading-time');
 const excludeSpaces   = document.getElementById('exclude-spaces');
 const themeToggle     = document.getElementById('themeToggle');
 const themeIcon       = document.getElementById('themeIcon');
+const characterLimit  = document.getElementById('character-limit-toggle');
+const charCountLimit  = document.getElementById('character-count-limit');
+const limitWarning    = document.getElementById('limitation-warning');
+const charLimit       = document.getElementById('character-limit');
 
 textArea.addEventListener('input', () => {
-  let textAreaValue = textArea.value
+  let textAreaValue = textArea.value;
 
   updateTotalChar();
   wordCount.textContent       = textAreaValue.trim() === "" ? "00" : formatCount(textAreaValue.trim().split(" ").length);
   sentenceCount.textContent   = textAreaValue.trim() === "" ? "00" : formatCount(removeEmptyLines(textAreaValue.trim().split(".")).length);
-  readingTime.textContent     = formatReadingTime(getReadingTime())
+  readingTime.textContent     = formatReadingTime(getReadingTime());
+  updateLimitMessage();
 });
 
 excludeSpaces.addEventListener('change', () => {
@@ -24,6 +29,27 @@ themeToggle.addEventListener('change', () => {
   themeIcon.src = themeToggle.checked ? 'icons/light_mode.svg' : 'icons/dark_mode.svg';
   document.body.classList.toggle('dark', themeToggle.checked);
 });
+
+characterLimit.addEventListener('change', () => {
+  document.getElementById("character-limit").classList.toggle("hidden", !characterLimit.checked);
+});
+
+charLimit.addEventListener('change', () => {
+  updateLimitMessage();
+});
+
+function updateLimitMessage() {
+  if (textArea.value.length > charLimit.value && characterLimit.checked) {
+    charCountLimit.textContent  = textArea.value.length + ' out of ' + charLimit.value
+    if (limitWarning.classList.contains("hidden")) {
+      limitWarning.classList.remove("hidden")
+    }
+  } else {
+    if (!limitWarning.classList.contains("hidden")) {
+      limitWarning.classList.add("hidden")
+    }
+  }
+}
 
 function getTotalChar() {
   return excludeSpaces.checked ?

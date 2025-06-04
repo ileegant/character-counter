@@ -17,13 +17,15 @@
   <main>
     <h1>Analyze your text</h1>
     <h1>in real-time.</h1>
+    <p id="limitation-warning" class="hidden">WARNING: Limit exceeded! You’ve used <span id="character-count-limit">0 out of 0</span> allowed characters. Please shorten your text.</p>
     <textarea id="text-area" placeholder="Start typing here... (or paste your text)" rows="5" cols="30"></textarea>
     <div class="undertext-container">
       <div class="text-options">
         <input type="checkbox" id="exclude-spaces">
         <label for="exclude-spaces">Exclude Spaces</label>
-        <input type="checkbox">
+        <input type="checkbox" id="character-limit-toggle">
         <label for="">Set Character Limit</label>
+        <input type="number" class="hidden" id="character-limit">
       </div>
       <div class="readind-time">
         <p>Approx. reading time: <span id="reading-time">0</span> minute</p>
