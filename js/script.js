@@ -11,19 +11,21 @@ textArea.addEventListener('input', () => {
   updateTotalChar();
   wordCount.textContent       = textAreaValue.trim() === "" ? "00" : formatCount(textAreaValue.trim().split(" ").length);
   sentenceCount.textContent   = textAreaValue.trim() === "" ? "00" : formatCount(removeEmptyLines(textAreaValue.trim().split(".")).length);
-  sentenceCount.readingTime   = getReadingTime(100)
+  readingTime.textContent     = getReadingTime()
 });
 
 excludeSpaces.addEventListener('change', () => {
   updateTotalChar();
 });
 
-function updateTotalChar() {
-  let charCount = excludeSpaces.checked ?
+function getTotalChar() {
+  return excludeSpaces.checked ?
       textArea.value.replace(/\s+/g, '').length :
       textArea.value.length;
+}
 
-  totalCharacters.textContent = formatCount(charCount)
+function updateTotalChar() {
+  totalCharacters.textContent = formatCount(getTotalChar())
 }
 
 function formatCount(count) {
@@ -34,6 +36,6 @@ function removeEmptyLines(arr) {
   return arr.filter(line => line.trim() !== "");
 }
 
-function getReadingTime(wordCount, wordsPerMinute = 200) {
-
+function getReadingTime(wordsPerMinute = 200) {
+  return (textArea.value.replace(/\s+/g, '').length * 1.0 / wordsPerMinute).toFixed(1)
 }
