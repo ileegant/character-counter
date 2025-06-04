@@ -82,6 +82,14 @@ main .undertext-container {
   padding: 2rem 1rem;
 }
 
+.counter:first-child {
+  background-color: #ff9f00;
+}
+
+.counter:last-child {
+  background-color: #ff8159;
+}
+
 .counter h1 {
   font-weight: 400;
 }
