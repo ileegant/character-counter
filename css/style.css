@@ -36,19 +36,21 @@ body {
   margin: 0 auto;
 }
 
+/* Header Styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0 2rem;
+  width: 100%;
+}
+
 body.dark {
   --background-color: #13151b;
   --text-color: #fefefe;
   --text-area-border: 3px solid #2d2d37;
   --text-area-background: #22222c;
   transition: var(--default-transition);
-}
-
-header {
-  width: 60%;
-  display: flex;
-  justify-content: space-between;
-  padding: var(--default-padding);
 }
 
 header img {
