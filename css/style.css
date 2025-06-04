@@ -7,11 +7,13 @@
 }
 
 :root {
-  --background-color: #14141c;
-  --text-area-background-color: #22222c;
-  --text-area-border: 3px solid #2e2e38;
-  --text-color: #ecebf1;
-  --padding: 1rem;
+  --background-color: #fefefe;
+  --text-color: #13151b;
+  --counter-text-color: #13151b;
+  --text-area-border: 3px solid #e2e2e2;
+  --text-area-background: #fafafa;
+  --default-padding: 1rem;
+  --default-margin: 1rem;
   --default-radius: 10px;
 }
 
@@ -25,18 +27,22 @@ body {
   align-items: center;
 }
 
+body.dark {
+  --background-color: #13151b;
+  --text-color: #fefefe;
+  --text-area-border: 3px solid #2d2d37;
+  --text-area-background: #22222c;
+}
+
 header {
   width: 60%;
   display: flex;
   justify-content: space-between;
-  padding: var(--padding);
+  padding: var(--default-padding);
 }
 
 main {
   width: 60%;
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* align-items: center; */
   text-align: center;
 }
 
@@ -47,14 +53,14 @@ main h1 {
 main #text-area {
   min-width: 100%;
   min-height: 14rem;
-  background-color: var(--text-area-background-color);
+  background-color: var(--text-area-background);
   border: var(--text-area-border);
   border-radius: var(--default-radius);
   color: var(--text-color);
-  padding: 1rem;
+  padding: var(--default-padding);
   outline: none;
   resize: vertical;
-  margin: 1rem 0;
+  margin: var(--default-margin) 0;
 }
 
 main .undertext-container {
@@ -76,7 +82,7 @@ main .undertext-container {
 .counter-container .counter {
   width: 100%;
   background-color: #d3a1fa;
-  color: var(--background-color);
+  color: var(--counter-text-color);
   border-radius: var(--default-radius);
   text-align: left;
   padding: 2rem 1rem;
