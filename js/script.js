@@ -5,7 +5,7 @@ const sentenceCount   = document.getElementById('sentence-count');
 const readingTime     = document.getElementById('reading-time');
 const excludeSpaces   = document.getElementById('exclude-spaces');
 const themeToggle     = document.getElementById('themeToggle');
-
+const themeIcon       = document.getElementById('themeIcon');
 
 textArea.addEventListener('input', () => {
   let textAreaValue = textArea.value
@@ -21,6 +21,7 @@ excludeSpaces.addEventListener('change', () => {
 });
 
 themeToggle.addEventListener('change', () => {
+  themeIcon.src = themeToggle.checked ? 'icons/light_mode.svg' : 'icons/dark_mode.svg';
   document.body.classList.toggle('dark', themeToggle.checked);
 });
 

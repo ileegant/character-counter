@@ -15,6 +15,7 @@
   --default-padding: 1rem;
   --default-margin: 1rem;
   --default-radius: 10px;
+  --default-transition: all .5s ease;
 }
 
 body {
@@ -25,6 +26,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: var(--default-transition);
 }
 
 body.dark {
@@ -32,6 +34,7 @@ body.dark {
   --text-color: #fefefe;
   --text-area-border: 3px solid #2d2d37;
   --text-area-background: #22222c;
+  transition: var(--default-transition);
 }
 
 header {
@@ -39,6 +42,14 @@ header {
   display: flex;
   justify-content: space-between;
   padding: var(--default-padding);
+}
+
+header img {
+  padding: .5rem;
+  background-color: var(--text-area-background);
+  border: var(--text-area-border);
+  border-radius: var(--default-radius);
+  transition: var(--default-transition);
 }
 
 main {
@@ -61,6 +72,7 @@ main #text-area {
   outline: none;
   resize: vertical;
   margin: var(--default-margin) 0;
+  transition: var(--default-transition);
 }
 
 main .undertext-container {
