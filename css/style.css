@@ -77,21 +77,21 @@ body.dark {
   height: 24px;
 }
 
-.theme {
-  padding: .5rem;
-  background-color: var(--text-area-background);
-  border: var(--text-area-border);
-  border-radius: var(--default-radius);
-  transition: var(--default-transition);
-}
-
-main {
-  width: 60%;
+/* Main Content */
+.hero {
   text-align: center;
+  margin-bottom: 2rem;
+  color: var(--text-color);
 }
 
-main h1 {
-  font-size: 4rem;
+.hero h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+}
+
+.hero h2 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 500;
 }
 
 main #text-area {
