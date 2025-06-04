@@ -7,45 +7,47 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header>
-    <h3>Character Counter</h3>
-    <label for="themeToggle">
-      <img src="icons/dark_mode.svg" alt="" id="themeIcon">
-      <input type="checkbox" id="themeToggle" hidden>
-    </label>
-  </header>
-  <main>
-    <h1>Analyze your text</h1>
-    <h1>in real-time.</h1>
-    <p id="limitation-warning" class="hidden">WARNING: Limit exceeded! You’ve used <span id="character-count-limit">0 out of 0</span> allowed characters. Please shorten your text.</p>
-    <textarea id="text-area" placeholder="Start typing here... (or paste your text)" rows="5" cols="30"></textarea>
-    <div class="undertext-container">
-      <div class="text-options">
-        <input type="checkbox" id="exclude-spaces">
-        <label for="exclude-spaces">Exclude Spaces</label>
-        <input type="checkbox" id="character-limit-toggle">
-        <label for="">Set Character Limit</label>
-        <input type="number" class="hidden" id="character-limit">
+  <div class="container">
+    <header>
+      <h3>Character Counter</h3>
+      <label for="themeToggle">
+        <img src="icons/dark_mode.svg" alt="" id="themeIcon">
+        <input type="checkbox" id="themeToggle" hidden>
+      </label>
+    </header>
+    <main>
+      <h1>Analyze your text</h1>
+      <h1>in real-time.</h1>
+      <p id="limitation-warning" class="hidden">WARNING: Limit exceeded! You’ve used <span id="character-count-limit">0 out of 0</span> allowed characters. Please shorten your text.</p>
+      <textarea id="text-area" placeholder="Start typing here... (or paste your text)" rows="5" cols="30"></textarea>
+      <div class="undertext-container">
+        <div class="text-options">
+          <input type="checkbox" id="exclude-spaces">
+          <label for="exclude-spaces">Exclude Spaces</label>
+          <input type="checkbox" id="character-limit-toggle">
+          <label for="">Set Character Limit</label>
+          <input type="number" class="hidden" id="character-limit">
+        </div>
+        <div class="readind-time">
+          <p>Approx. reading time: <span id="reading-time">0</span> minute</p>
+        </div>
       </div>
-      <div class="readind-time">
-        <p>Approx. reading time: <span id="reading-time">0</span> minute</p>
+      <div class="counter-container">
+        <div class="counter">
+          <h1 id="total-characters">00</h1>
+          <p>Total Character</p>
+        </div>
+        <div class="counter">
+          <h1 id="word-count">00</h1>
+          <p>Word Count</p>
+        </div>
+        <div class="counter">
+          <h1 id="sentence-count">00</h1>
+          <p>Sentence Count</p>
+        </div>
       </div>
-    </div>
-    <div class="counter-container">
-      <div class="counter">
-        <h1 id="total-characters">00</h1>
-        <p>Total Character</p>
-      </div>
-      <div class="counter">
-        <h1 id="word-count">00</h1>
-        <p>Word Count</p>
-      </div>
-      <div class="counter">
-        <h1 id="sentence-count">00</h1>
-        <p>Sentence Count</p>
-      </div>
-    </div>
-  </main>
+    </main>
+  </div>
   <script src="js/script.js"></script>
 </body>
 </html>

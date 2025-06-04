@@ -19,14 +19,21 @@
 }
 
 body {
-  height: 100vh;
+  font-family: 'Poppins', sans-serif;
   background-color: var(--background-color);
   color: var(--text-color);
-  font-family: 'Poppins', sans-serif;
+  transition: var(--default-transition);
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: var(--default-transition);
+  padding: var(--default-padding);
+}
+
+.container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 body.dark {
