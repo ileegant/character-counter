@@ -10,7 +10,7 @@
   <div class="container">
     <header class="header">
       <h1 class="logo">Character Counter</h1>
-      <button class="theme-toggle" id="themeToogle" aria-label="Toggle dark mode">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
         <div class="theme-icon">
           <img src="icons/dark_mode.svg" id="themeIcon">
         </div>
@@ -27,36 +27,56 @@
         <strong>Warning!</strong> Limit exceeded! You've used <span id="characterCountLimit">0 out of 0</span> allowed characters. Please shorten your text.
       </div>
 
-      <p id="limitation-warning" class="hidden">WARNING: Limit exceeded! You’ve used <span id="character-count-limit">0 out of 0</span> allowed characters. Please shorten your text.</p>
+      <textarea
+        id="textArea"
+        class="text-input"
+        placeholder="Start typing here... (or paste your text)"
+        aria-label="Enter your text to analyze"
+      ></textarea>
 
+      <div class="controls">
+        <div class="control-group">
+          <label class="checkbox-wrapper">
+            <input type="checkbox" id="excludeSpaces" class="checkbox">
+            <span>Exclude Spaces</span>
+          </label>
 
-      <textarea id="text-area" placeholder="Start typing here... (or paste your text)" rows="5" cols="30"></textarea>
-      <div class="undertext-container">
-        <div class="text-options">
-          <input type="checkbox" id="exclude-spaces">
-          <label for="exclude-spaces">Exclude Spaces</label>
-          <input type="checkbox" id="character-limit-toggle">
-          <label for="">Set Character Limit</label>
-          <input type="number" class="hidden" id="character-limit">
+          <label class="checkbox-wrapper">
+            <input type="checkbox" id="characterLimitToggle" class="checkbox">
+            <span>Set Character Limit</span>
+          </label>
+
+          <input
+            type="number"
+            id="characterLimit"
+            class="number-input hidden"
+            min="1"
+            aria-label="Character limit"
+          >
         </div>
+
         <div class="readind-time">
-          <p>Approx. reading time: <span id="reading-time">0</span> minute</p>
+          <span>Approx. reading time: <span id="readingTime">0</span> minutes</span>
         </div>
       </div>
-      <div class="counter-container">
-        <div class="counter">
-          <h1 id="total-characters">00</h1>
-          <p>Total Character</p>
+
+      <section class="stats-grid">
+        <div class="stat-card characters">
+          <span class="stat-number" id="totalCharacters">00</span>
+          <span class="stat-label">Total Character</span>
         </div>
-        <div class="counter">
-          <h1 id="word-count">00</h1>
-          <p>Word Count</p>
+
+        <div class="stat-card words">
+          <span class="stat-number" id="wordCount">00</span>
+          <span class="stat-label">Word Count</span>
         </div>
-        <div class="counter">
-          <h1 id="sentence-count">00</h1>
-          <p>Sentence Count</p>
+
+        <div class="stat-card sentences">
+          <span class="stat-number" id="sentenceCount">00</span>
+          <span class="stat-label">Sentence Count</span>
         </div>
-      </div>
+
+      </section>
     </main>
   </div>
   <script src="js/script.js"></script>

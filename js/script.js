@@ -1,84 +1,215 @@
-const textArea        = document.getElementById('text-area');
-const totalCharacters = document.getElementById('total-characters');
-const wordCount       = document.getElementById('word-count');
-const sentenceCount   = document.getElementById('sentence-count');
-const readingTime     = document.getElementById('reading-time');
-const excludeSpaces   = document.getElementById('exclude-spaces');
-const themeToggle     = document.getElementById('themeToggle');
-const themeIcon       = document.getElementById('themeIcon');
-const characterLimit  = document.getElementById('character-limit-toggle');
-const charCountLimit  = document.getElementById('character-count-limit');
-const limitWarning    = document.getElementById('limitation-warning');
-const charLimit       = document.getElementById('character-limit');
+class TextAnalyzer {
+  constructor() {
+    this.elements = this.initializeElements();
+    this.settings = {
+      excludeSpaces: false,
+      characterLimit: null,
+      wordsPerMinute: 200
+    };
+    this.bindEvents();
+    this.updateStats();
+  }
 
-textArea.addEventListener('input', () => {
-  let textAreaValue = textArea.value;
+  initializeElements() {
+    const elements = {};
+    const elementIds = [
+      'textArea', 'totalCharacters', 'wordCount', 'sentenceCount',
+      'readingTime', 'excludeSpaces', 'themeToggle', 'themeIcon',
+      'characterLimitToggle', 'characterCountLimit', 'warningMessage',
+      'characterLimit'
+    ];
 
-  updateTotalChar();
-  wordCount.textContent       = textAreaValue.trim() === "" ? "00" : formatCount(textAreaValue.trim().split(" ").length);
-  sentenceCount.textContent   = textAreaValue.trim() === "" ? "00" : formatCount(removeEmptyLines(textAreaValue.trim().split(".")).length);
-  readingTime.textContent     = formatReadingTime(getReadingTime());
-  updateLimitMessage();
-});
+    elementIds.forEach(id => {
+      elements[id] = document.getElementById(id);
+      if (!elements[id]) {
+        console.warn(`Element with id '${id}' not found`);
+      }
+    });
 
-excludeSpaces.addEventListener('change', () => {
-  updateTotalChar();
-});
+    return elements;
+  }
 
-themeToggle.addEventListener('change', () => {
-  themeIcon.src = themeToggle.checked ? 'icons/light_mode.svg' : 'icons/dark_mode.svg';
-  document.body.classList.toggle('dark', themeToggle.checked);
-});
+  bindEvents() {
+    // Text input events
+    this.elements.textArea?.addEventListener('input', this.debounce(() => {
+      this.updateStats();
+    }, 100));
 
-characterLimit.addEventListener('change', () => {
-  document.getElementById("character-limit").classList.toggle("hidden", !characterLimit.checked);
-});
+    // Settings events
+    this.elements.excludeSpaces?.addEventListener('change', () => {
+      this.settings.excludeSpaces = this.elements.excludeSpaces.checked;
+      this.updateStats();
+    });
 
-charLimit.addEventListener('change', () => {
-  updateLimitMessage();
-});
+    this.elements.characterLimitToggle?.addEventListener('change', () => {
+      this.toggleCharacterLimit();
+    });
 
-function updateLimitMessage() {
-  if (textArea.value.length > charLimit.value && characterLimit.checked) {
-    charCountLimit.textContent  = textArea.value.length + ' out of ' + charLimit.value
-    if (limitWarning.classList.contains("hidden")) {
-      limitWarning.classList.remove("hidden")
+    this.elements.characterLimit?.addEventListener('input', this.debounce(() => {
+      this.settings.characterLimit = parseInt(this.elements.characterLimit.value) || null;
+      this.updateStats();
+    }, 300));
+
+    // Theme toggle
+    this.elements.themeToggle?.addEventListener('click', () => {
+      console.log('yes');
+      this.toggleTheme();
+    });
+
+    // Initialize theme
+    this.initializeTheme();
+  }
+
+  debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func.apply(this, args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    }.bind(this);
+  }
+
+  updateStats() {
+    if (!this.elements.textArea) return;
+
+    const text = this.elements.textArea.value;
+    const stats = this.analyzeText(text);
+
+    this.updateDisplay(stats);
+    this.checkCharacterLimit(stats.characters);
+  }
+
+  analyzeText(text) {
+    const characters = this.settings.excludeSpaces
+      ? text.replace(/\s/g, '').length
+      : text.length;
+
+    const words = text.trim()
+      ? text.trim().split(/\s+/).length
+      : 0;
+
+    const sentences = text.trim()
+      ? text.split(/[.!?]+/).filter(s => s.trim().length > 0).length
+      : 0;
+
+    const readingTime = this.calculateReadingTime(words);
+
+    return { characters, words, sentences, readingTime };
+  }
+
+  calculateReadingTime(wordCount) {
+    const minutes = wordCount / this.settings.wordsPerMinute;
+
+    if (minutes < 1) {
+      return '< 1';
+    } else if (minutes < 60) {
+      return Math.ceil(minutes).toString();
+    } else {
+      const hours = Math.floor(minutes / 60);
+      const remainingMinutes = Math.floor(minutes % 60);
+      return remainingMinutes > 0
+        ? `${hours} hours ${remainingMinutes}`
+        : `${hours} hours 00`;
     }
-  } else {
-    if (!limitWarning.classList.contains("hidden")) {
-      limitWarning.classList.add("hidden")
+  }
+
+  updateDisplay(stats) {
+    if (this.elements.totalCharacters) {
+      this.elements.totalCharacters.textContent = stats.characters.toLocaleString();
     }
+    if (this.elements.wordCount) {
+      this.elements.wordCount.textContent = stats.words.toLocaleString();
+    }
+    if (this.elements.sentenceCount) {
+      this.elements.sentenceCount.textContent = stats.sentences.toLocaleString();
+    }
+    if (this.elements.readingTime) {
+      this.elements.readingTime.textContent = stats.readingTime;
+    }
+  }
+
+  checkCharacterLimit(currentCount) {
+    if (!this.settings.characterLimit || !this.elements.warningMessage) return;
+
+    const isOverLimit = currentCount > this.settings.characterLimit;
+
+    if (isOverLimit) {
+      this.elements.characterCountLimit.textContent =
+        `${currentCount.toLocaleString()} out of ${this.settings.characterLimit.toLocaleString()}`;
+      this.elements.warningMessage.classList.add('show');
+    } else {
+      this.elements.warningMessage.classList.remove('show');
+    }
+  }
+
+  toggleCharacterLimit() {
+    const isEnabled = this.elements.characterLimitToggle?.checked;
+
+    if (this.elements.characterLimit) {
+      this.elements.characterLimit.classList.toggle('hidden', !isEnabled);
+
+      if (isEnabled) {
+        this.elements.characterLimit.focus();
+        this.settings.characterLimit = parseInt(this.elements.characterLimit.value) || null;
+      } else {
+        this.settings.characterLimit = null;
+        if (this.elements.warningMessage) {
+          this.elements.warningMessage.classList.remove('show');
+        }
+      }
+    }
+
+    this.updateStats();
+  }
+
+  toggleTheme() {
+    const isDark = document.body.hasAttribute('data-theme');
+
+    if (isDark) {
+      document.body.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+      this.updateThemeIcon(false);
+    } else {
+      document.body.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+      this.updateThemeIcon(true);
+    }
+  }
+
+  initializeTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+
+    if (isDark) {
+      document.body.setAttribute('data-theme', 'dark');
+    }
+
+    this.updateThemeIcon(isDark);
+  }
+
+  updateThemeIcon(isDark) {
+    if (!this.elements.themeIcon) return;
+
+    this.elements.themeIcon.src = isDark ? "icons/light_mode.svg" : "icons/dark_mode.svg";
   }
 }
 
-function getTotalChar() {
-  return excludeSpaces.checked ?
-      textArea.value.replace(/\s+/g, '').length :
-      textArea.value.length;
-}
+// Initialize the application when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  new TextAnalyzer();
+});
 
-function updateTotalChar() {
-  totalCharacters.textContent = formatCount(getTotalChar())
-}
-
-function formatCount(count) {
-  return count.toString().padStart(2, "0");
-}
-
-function removeEmptyLines(arr) {
-  return arr.filter(line => line.trim() !== "");
-}
-
-function getReadingTime(wordsPerMinute = 200) {
-  return (textArea.value.replace(/\s+/g, '').length * 1.0 / wordsPerMinute).toFixed(1)
-}
-
-function formatReadingTime(readingTime) {
-  let hours = Math.floor(Number(readingTime/60));
-  if (hours === 0) {
-    return readingTime;
-  } else {
-    let minutes = (readingTime - hours * 60).toFixed(1);
-    return `${hours} hours ${minutes}`;
+// Handle system theme changes
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+  if (!localStorage.getItem('theme')) {
+    if (e.matches) {
+      document.body.setAttribute('data-theme', 'dark');
+    } else {
+      document.body.removeAttribute('data-theme');
+    }
   }
-}
+});
