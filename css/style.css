@@ -42,7 +42,7 @@ body {
 
 .container {
   width: 100%;
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -218,11 +218,11 @@ body {
 }
 
 .stat-card.characters {
-  background-color: #ff9f00;
+  background-color: #d3a1fa;
 }
 
 .stat-card.words {
-  background-color: #d3a1fa;
+  background-color: #ff9f00;
 }
 
 .stat-card.sentences {
@@ -241,6 +241,8 @@ body {
   font-weight: 500;
   opacity: .6;
 }
+
+/* Text density */
 
 /* Utilities */
 .hidden {

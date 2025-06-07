@@ -16,7 +16,7 @@ class TextAnalyzer {
       'textArea', 'totalCharacters', 'wordCount', 'sentenceCount',
       'readingTime', 'excludeSpaces', 'themeToggle', 'themeIcon',
       'characterLimitToggle', 'characterCountLimit', 'warningMessage',
-      'characterLimit'
+      'characterLimit', 'letterDensity'
     ];
 
     elementIds.forEach(id => {
@@ -33,6 +33,7 @@ class TextAnalyzer {
     // Text input events
     this.elements.textArea?.addEventListener('input', this.debounce(() => {
       this.updateStats();
+      this.updateLetterDensity();
     }, 100));
 
     // Settings events
@@ -106,6 +107,55 @@ class TextAnalyzer {
         readingTime: formatNumber(readingTime)
     };
   }
+
+  analyzeLetters(text) {
+    const letterCount = {};
+    const cleanText = text.toLowerCase().replace(/[^a-zа-яёєії]/g, '');
+
+    for (let char of cleanText) {
+      letterCount[char] = (letterCount[char] || 0) + 1;
+    }
+
+    return letterCount;
+  }
+
+  updateLetterDensity() {
+    if (!this.elements.letterDensity || !this.elements.textArea) return;
+
+    const text = this.elements.textArea.value;
+    const letterData = this.analyzeLetters(text);
+
+    if (Object.keys(letterData).length === 0) {
+      this.elements.letterDensity.innerHTML = '<p>No characters found. Start typing to see letter density.</p>'
+      return;
+    }
+
+    const totalLetters = Object.values(letterData).reduce((sum, count) => sum + count, 0);
+
+    // Сортуємо літери за кількістю (спадаючий порядок)
+    const sortedEntries = Object.entries(letterData).sort((a, b) => b[1] - a[1]);
+
+    let innerHTML = "";
+
+    sortedEntries.forEach(([letter, count]) => {
+      const percentage = ((count / totalLetters) * 100).toFixed(1);
+
+      innerHTML += `
+        <div class="progress-container">
+          <div class="letter">${letter.toUpperCase()}</div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: ${percentage}%"></div>
+          </div>
+          <div class="stats">
+            <span class="count">${count} (${percentage}%)</span>
+          </div>
+        </div>
+      `;
+    });
+
+    this.elements.letterDensity.innerHTML = innerHTML;
+  }
+
 
   calculateReadingTime(wordCount) {
     const minutes = wordCount / this.settings.wordsPerMinute;
