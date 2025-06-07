@@ -147,7 +147,7 @@ class TextAnalyzer {
             <div class="progress-fill" style="width: ${percentage}%"></div>
           </div>
           <div class="stats">
-            <span class="count">${count} (${percentage}%)</span>
+            <p>${count} (${percentage}%)</p>
           </div>
         </div>
       `;
