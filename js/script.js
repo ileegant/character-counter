@@ -97,7 +97,14 @@ class TextAnalyzer {
 
     const readingTime = this.calculateReadingTime(words);
 
-    return { characters, words, sentences, readingTime };
+    const formatNumber = (num) => num.toString().padStart(2, '0');
+
+    return {
+        characters: formatNumber(characters),
+        words: formatNumber(words),
+        sentences: formatNumber(sentences),
+        readingTime: formatNumber(readingTime)
+    };
   }
 
   calculateReadingTime(wordCount) {

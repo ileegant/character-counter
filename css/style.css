@@ -207,6 +207,7 @@ body {
   padding: 1rem 1.5rem;
   border-radius: var(--default-radius);
   text-align: left;
+  color: #13151b;
   box-shadow: var(--shadow);
   position: relative;
   overflow: hidden;
