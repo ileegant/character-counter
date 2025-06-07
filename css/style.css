@@ -172,13 +172,22 @@ body {
 }
 
 .number-input {
-  padding: .5rem;
+  padding: .2rem;
   border: 1px solid var(--text-color);
   border-radius: 6px;
   background-color: var(--background-color);
   color: var(--text-color);
-  width: 100px;
-  margin-left: .5rem;
+  accent-color: red;
+  outline: none;
+  width: 60px;
+  margin-left: .2rem;
+  -moz-appearance: textfield;
+}
+
+.number-input::-webkit-outer-spin-button,
+.number-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .reading-time {
@@ -195,7 +204,7 @@ body {
 }
 
 .stat-card {
-  padding: 2rem 1.5rem;
+  padding: 1rem 1.5rem;
   border-radius: var(--default-radius);
   text-align: left;
   box-shadow: var(--shadow);
