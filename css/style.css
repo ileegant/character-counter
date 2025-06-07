@@ -9,6 +9,7 @@
 :root {
   --background-color: #fefefe;
   --text-color: #13151b;
+  --letter-density-color: rgba(0, 0, 0, 0.6);
   --counter-text-color: #13151b;
   --text-area-border: 3px solid #e2e2e2;
   --text-area-background: #fafafa;
@@ -23,6 +24,7 @@
 [data-theme="dark"] {
   --background-color: #13151b;
   --text-color: #fefefe;
+  --letter-density-color: rgba(255, 255, 255, 0.6);
   --text-area-border: 3px solid #2d2d37;
   --text-area-background: #22222c;
   transition: var(--default-transition);
@@ -255,6 +257,7 @@ body {
   align-items: center;
   margin-bottom: .5rem;
   width: 100%;
+  color: var(--letter-density-color);
 }
 
 .letter {
