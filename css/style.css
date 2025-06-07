@@ -268,6 +268,7 @@ body {
   height: 14px;
   background-color: var(--text-area-background);
   border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, .2);
   overflow: hidden;
 }
 
